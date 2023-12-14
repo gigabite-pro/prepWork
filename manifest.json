@@ -1,0 +1,41 @@
+{
+    "name": "PrepWork",
+    "version": "1.0",
+    "description": "PrepWork is a Chrome extension that lets you access answers/solutions and hints to the questions of WebWork. It shows the solution to different versions of the same question.",
+    "author": "Vaibhav Sharma", 
+    "homepage_url": "https://drive.google.com/drive/folders/11aEZxcQcAxA3u0twSWbRTV3_NRRHvfpb?usp=sharing",
+    "manifest_version": 3,
+    "action": {
+        "default_title": "PrepWork",
+        "default_popup": "popup.html",
+        "default_icon": "./assets/logo.png"
+    },
+    "icons": {
+        "16": "./assets/logo-16.png",
+        "24": "./assets/logo-24.png",
+        "32": "./assets/logo-32.png",
+        "48": "./assets/logo-48.png",
+        "128": "./assets/logo-128.png"
+    },
+    "permissions" : [
+        "tabs",
+        "storage"
+    ],
+    "host_permissions" : [
+        "https://webwork.elearning.ubc.ca/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://webwork.elearning.ubc.ca/"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "background" : {
+        "service_worker" : "./background.js"
+    }
+}
