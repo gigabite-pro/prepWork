@@ -27,7 +27,7 @@
     "content_scripts": [
         {
             "matches": [
-                "https://webwork.elearning.ubc.ca/"
+                "https://webwork.elearning.ubc.ca/*"
             ],
             "js": [
                 "content.js"

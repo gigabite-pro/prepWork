@@ -1,43 +1,242 @@
-@font-face {
-    font-family: 'Sofia Pro';
-    src: url('assets/Sofia\ Pro\ Regular\ Az.otf') format('opentype');
-}
-@font-face {
-    font-family: 'Sofia Pro Bold';
-    src: url('assets/Sofia\ Pro\ Bold\ Az.otf') format('opentype');
-}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 body{
     margin: 0;
     padding: 0;
     width: 500px;
-    height: 500px;
+    height: 537px;
     border: none;
     background: none;
-}
-
-.container{
-    height: 500px;
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
+    font-family: 'Outfit', sans-serif;
     background-color: #1F89EF;
 }
 
-.nav h1{
-    font-family: 'Sofia Pro Bold';
-    color: #DAEE88;
+.main-container{
+    height: 507px;
+    width: 500px;
+    background-color: #1F89EF;
+}
+
+.footer{
+    width: 100%;
+    height: 30px;
+    padding: 3px;
+    background-color: #1F89EF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #DAF276;
+}
+
+.footer a{
+    color: #1e1e1e;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.auth-options{
+    display: flex; /* flex */
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 500px;
+    width: 100%;
 }
 
 .logo{
-    height: 50px;
-    width: 50px;
-    border: none;
-    background-image: url('assets/logo.png');
-    background-size: cover;
+    background: url('/assets/logo.png');
     background-repeat: no-repeat;
+    background-size: cover;
     background-position: center;
+    width: 150px;
+    height: 150px;
+    border: 3px solid #1E1E1E;
+    border-radius: 15px;
 }
 
+.auth-btns{
+    margin-top: -50px;
+    height: 106px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.auth-btn {
+    width: 169px;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    background: #DAF276;
+    color: #1e1e1e;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+}
+
+.backBtn{
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 46px;
+    left: 23px;
+}
+
+.backBtn:hover{
+    cursor: pointer;
+}
+
+
+.register-container{
+    width: 100%;
+    height: 505px;
+    display: none; /* flex */
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 9px;
+}
+
+.main-head{
+    color: #DAF276;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.reg-box{
+    background-color: #DAF276;
+    width: 90%;
+    height: 370px;
+    border-radius: 15px;
+}
+
+.reg-box h3{
+    color: #1e1e1e;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+input{
+    width: 350px;
+    height: 46.3px;
+    padding: 5px 18px;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 16.6px;
+    font-family: 'Outfit', sans-serif;
+}
+
+input::placeholder{
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+}
+
+.showPassBtn{
+    width: 30px;
+    height: 30px;
+    background-image: url('/assets/peeking-face.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    transition-duration: 0.3s;
+}
+
+.spb1{
+    right: 70px;
+    bottom: 165px;
+}
+
+.showPassBtn:hover{
+    cursor: pointer;
+}
+
+.regBtn{
+    width: 131px;
+    height: 37.2px;
+    border: none;
+    border-radius: 12px;
+    background-color: #FFA2E8;
+    color: #1E1E1E;
+    font-family: Outfit;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.login-container{
+    width: 100%;
+    height: 505px;
+    display: none; /* flex */
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.login-box{
+    background-color: #DAF276;
+    width: 90%;
+    height: 330px;
+    border-radius: 15px;
+}
+
+.login-box h3{
+    color: #1e1e1e;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.spb2{
+    right: 70px;
+    bottom: 213px;
+}
+
+.forgotPass{
+    color: #1e1e1e;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-align: center;
+    margin-top: -3px;
+}
+
+.forgotPass:hover{
+    cursor: pointer;
+}
+
+.loginBtn{
+    width: 131px;
+    height: 37.2px;
+    border: none;
+    border-radius: 12px;
+    background-color: #FFA2E8;
+    color: #1E1E1E;
+    font-family: Outfit;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
