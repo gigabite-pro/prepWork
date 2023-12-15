@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="notyf.css">
     <link rel="stylesheet" href="style.css">
     <title>PrepWork</title>
 </head>
@@ -30,9 +31,9 @@
             <div class="reg-box">
                 <h3>Register</h3>
                 <div class="form">
-                    <input type="text" placeholder="Email (Only to reset password)" id="regEmail">
-                    <input type="text" placeholder="Username (Please use an appropriate name)" id="regUsername">
-                    <input type="password" placeholder="Password" id="regPassword" class="password">
+                    <input type="email" placeholder="Email (Only to reset password)" id="regEmail" required>
+                    <input type="text" placeholder="Username (Please use an appropriate name)" id="regUsername" required>
+                    <input type="password" placeholder="Password" id="regPassword" class="password" required>
                     <div class="showPassBtn spb1" id="showPassBtn"></div>
                     <button class="regBtn" id="regBtn">Register</button>
                 </div>
@@ -50,20 +51,47 @@
             <div class="login-box">
                 <h3>Login</h3>
                 <div class="form">
-                    <input type="text" placeholder="Email or Username" id="loginUsername">
-                    <input type="password" placeholder="Password" id="loginPassword" class="password">
+                    <input type="text" placeholder="Email or Username" id="loginUsername" required>
+                    <input type="password" placeholder="Password" id="loginPassword" class="password" required>
                     <div class="showPassBtn spb2" id="showPassBtn"></div>
                     <p class="forgotPass" id="forgotPass">Forgot Password?</p>
                     <button class="loginBtn" id="loginBtn">Login</button>
                 </div>
             </div>
+        </div>
 
+        <!-- Forgot Password Page -->
+        <div class="forgot-container" id="forgot-container">
+            <div class="backBtn" id="backBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" height="35" width="35" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path fill="#daf276" d="M0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32C28.7 32 0 60.7 0 96L0 416zM128 256c0-6.7 2.8-13 7.7-17.6l112-104c7-6.5 17.2-8.2 25.9-4.4s14.4 12.5 14.4 22l0 208c0 9.5-5.7 18.2-14.4 22s-18.9 2.1-25.9-4.4l-112-104c-4.9-4.5-7.7-10.9-7.7-17.6z"/></svg>
+            </div>
+            <div class="main-head">
+                PrepWork
+            </div>
+            <div class="forgot-box">
+                <h3>Forgot Password</h3>
+                <div class="form">
+                    <input type="email" placeholder="Email" id="forgotEmail" required>
+                    <button class="forgotBtn" id="forgotBtn">Send Email</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Page -->
+        <div class="course-container" id="course-container">
+            <div class="main-head">
+                PrepWork
+            </div>
+            <div class="course-box">
+                <h3>Course</h3>
+            </div>
     </div>
     
     <!-- <hr style="border: none; margin: 0px; padding: 0px; height: 1px; background-color: black;"> -->
     <footer class="footer">
         <p>Created by <a href="https://github.com/gigabite-pro" target="_blank">Vaibhav</a></p>
     </footer>
+    <script src="notyf.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>
