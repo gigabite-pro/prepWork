@@ -1,4 +1,58 @@
-appState = 'start';
+function displayContainer(state) {
+    screenArray = ['start', 'register', 'login', 'forgot', 'course', 'error'];
+    for (let i = 0; i < screenArray.length; i++) {
+        if (state == screenArray[i]) {
+            document.getElementById(`${screenArray[i]}-container`).style.display = 'flex';
+        } else {
+            document.getElementById(`${screenArray[i]}-container`).style.display = 'none';
+        }
+    }
+}
+
+async function verifyToken() {
+    chrome.storage.local.get(['token'], function(result) {
+        const token = result.token;
+
+        if (token) {
+            fetch('http://localhost:3000/users/verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token }),
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status) {
+                    appState = 'course'; // course
+                    displayContainer(appState);
+                    notyf.success('Auto Logged In!');
+                    chrome.storage.local.set({ token: token });
+                } else {
+                    appState = 'start'; // start
+                    displayContainer(appState);
+                    notyf.error('Please Login Again!');
+                }
+            });
+        } else {
+            appState = 'start'; //start
+            displayContainer(appState);
+        }
+    });
+}
+
+let appState = '';
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    const tab = tabs[0];
+    const url = new URL(tab.url);
+
+    if (url.pathname.split('/').length > 5) {
+        verifyToken();
+    } else {
+        appState = 'error';
+        displayContainer(appState);
+    }
+});
 
 var notyf = new Notyf({
     position: {
@@ -9,23 +63,20 @@ var notyf = new Notyf({
 
 // Register Choice Handler
 document.getElementById('regChoiceBtn').addEventListener('click', () => {
-    document.getElementById('start-container').style.display = 'none';
-    document.getElementById('register-container').style.display = 'flex';
     appState = 'register';
+    displayContainer(appState);
 });
 
 // Login Choice Handler
 document.getElementById('loginChoiceBtn').addEventListener('click', () => {
-    document.getElementById('start-container').style.display = 'none';
-    document.getElementById('login-container').style.display = 'flex';
     appState = 'login';
+    displayContainer(appState);
 });
 
 // Forgot Password Choice Handler
 document.getElementById('forgotPass').addEventListener('click', () => {
-    document.getElementById('login-container').style.display = 'none';
-    document.getElementById('forgot-container').style.display = 'flex';
     appState = 'forgot';
+    displayContainer(appState);
 });
 
 // Register
@@ -44,11 +95,10 @@ document.getElementById('regBtn').addEventListener('click', () => {
     .then((res) => res.json())
     .then((data) => {
         if (data.status) {
-            document.cookie = `token=${data.token}`;
             notyf.success('Registered Successfully!');
-            document.getElementById('register-container').style.display = 'none';
-            document.getElementById('course-container').style.display = 'flex';
             appState = 'course';
+            displayContainer(appState);
+            chrome.storage.local.set({ token: data.token });
         } else {
             notyf.error(data.error);
         }
@@ -70,11 +120,10 @@ document.getElementById('loginBtn').addEventListener('click', () => {
     .then((res) => res.json())
     .then((data) => {
         if (data.status) {
-            document.cookie = `token=${data.token}`;
             notyf.success('Logged In Successfully!');
-            document.getElementById('login-container').style.display = 'none';
-            document.getElementById('course-container').style.display = 'flex';
             appState = 'course';
+            displayContainer(appState);
+            chrome.storage.local.set({ token: data.token });
         } else {
             notyf.error(data.error);
         }
@@ -96,15 +145,30 @@ document.getElementById('forgotBtn').addEventListener('click', () => {
     .then((data) => {
         if (data.status) {
             notyf.success('Password Reset Link Sent!');
-            document.getElementById('forgot-container').style.display = 'none';
-            document.getElementById('login-container').style.display = 'flex';
             appState = 'login';
+            displayContainer(appState);
         } else {
             notyf.error(data.error);
         }
     });
 });
 
+// Show Course Info
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    const tab = tabs[0];
+    const url = new URL(tab.url);
+
+    if (url.pathname.split('/').length > 5) {
+        chrome.tabs.sendMessage(tab.id, {type: 'getCourseInfo'});
+        setTimeout(() => {
+            chrome.storage.local.get(['wwNumber', 'qNumber', 'courseNumber'], function(result) {
+                document.getElementById('course-info').innerHTML = `${result.courseNumber} (WW${result.wwNumber} - Q${result.qNumber})`;
+            });
+        }, 500);
+    }
+});
+
+// Show/Hide Password
 document.querySelectorAll('#showPassBtn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const passwords = document.querySelectorAll('.password');
@@ -120,15 +184,15 @@ document.querySelectorAll('#showPassBtn').forEach(btn => {
     });
 })
 
+// Back Button
 document.querySelectorAll('#backBtn').forEach(btn => {
     btn.addEventListener('click', () => {
         if (appState == 'register' || appState == 'login') {
-            document.getElementById('login-container').style.display = 'none';
-            document.getElementById('register-container').style.display = 'none';
-            document.getElementById('start-container').style.display = 'flex';
+            appState = 'start';
+            displayContainer(appState);
         } else if (appState == 'forgot') {
-            document.getElementById('forgot-container').style.display = 'none';
-            document.getElementById('login-container').style.display = 'flex';
+            appState = 'login';
+            displayContainer(appState);
         }
     });
 });

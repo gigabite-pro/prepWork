@@ -12,7 +12,7 @@
     <div class="main-container" id="container">
 
         <!-- Auth Buttons Page -->
-        <div class="auth-options" id="start-container">
+        <div class="auth-options container" id="start-container">
             <div class="logo"></div>
             <div class="auth-btns">
                 <button class="auth-btn" id="regChoiceBtn">Register</button>
@@ -21,7 +21,7 @@
         </div>
 
         <!-- Register Page -->
-        <div class="register-container" id="register-container">
+        <div class="register-container container" id="register-container">
             <div class="backBtn" id="backBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" height="35" width="35" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path fill="#daf276" d="M0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32C28.7 32 0 60.7 0 96L0 416zM128 256c0-6.7 2.8-13 7.7-17.6l112-104c7-6.5 17.2-8.2 25.9-4.4s14.4 12.5 14.4 22l0 208c0 9.5-5.7 18.2-14.4 22s-18.9 2.1-25.9-4.4l-112-104c-4.9-4.5-7.7-10.9-7.7-17.6z"/></svg>
             </div>
@@ -35,13 +35,13 @@
                     <input type="text" placeholder="Username (Please use an appropriate name)" id="regUsername" required>
                     <input type="password" placeholder="Password" id="regPassword" class="password" required>
                     <div class="showPassBtn spb1" id="showPassBtn"></div>
-                    <button class="regBtn" id="regBtn">Register</button>
+                    <button class="regBtn pink-button" id="regBtn">Register</button>
                 </div>
             </div>
         </div>
 
         <!-- Login Page -->
-        <div class="login-container" id="login-container">
+        <div class="login-container container" id="login-container">
             <div class="backBtn" id="backBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" height="35" width="35" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path fill="#daf276" d="M0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32C28.7 32 0 60.7 0 96L0 416zM128 256c0-6.7 2.8-13 7.7-17.6l112-104c7-6.5 17.2-8.2 25.9-4.4s14.4 12.5 14.4 22l0 208c0 9.5-5.7 18.2-14.4 22s-18.9 2.1-25.9-4.4l-112-104c-4.9-4.5-7.7-10.9-7.7-17.6z"/></svg>
             </div>
@@ -55,13 +55,13 @@
                     <input type="password" placeholder="Password" id="loginPassword" class="password" required>
                     <div class="showPassBtn spb2" id="showPassBtn"></div>
                     <p class="forgotPass" id="forgotPass">Forgot Password?</p>
-                    <button class="loginBtn" id="loginBtn">Login</button>
+                    <button class="loginBtn pink-button" id="loginBtn">Login</button>
                 </div>
             </div>
         </div>
 
         <!-- Forgot Password Page -->
-        <div class="forgot-container" id="forgot-container">
+        <div class="forgot-container container" id="forgot-container">
             <div class="backBtn" id="backBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" height="35" width="35" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path fill="#daf276" d="M0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32C28.7 32 0 60.7 0 96L0 416zM128 256c0-6.7 2.8-13 7.7-17.6l112-104c7-6.5 17.2-8.2 25.9-4.4s14.4 12.5 14.4 22l0 208c0 9.5-5.7 18.2-14.4 22s-18.9 2.1-25.9-4.4l-112-104c-4.9-4.5-7.7-10.9-7.7-17.6z"/></svg>
             </div>
@@ -72,19 +72,38 @@
                 <h3>Forgot Password</h3>
                 <div class="form">
                     <input type="email" placeholder="Email" id="forgotEmail" required>
-                    <button class="forgotBtn" id="forgotBtn">Send Email</button>
+                    <button class="forgotBtn pink-button" id="forgotBtn">Send Email</button>
                 </div>
             </div>
         </div>
 
         <!-- Course Page -->
-        <div class="course-container" id="course-container">
+        <div class="course-container container" id="course-container">
             <div class="main-head">
                 PrepWork
             </div>
             <div class="course-box">
-                <h3>Course</h3>
+                <h3 id="course-info">Loading...</h3>
+                <div class="btn-list">
+                    <button class="pink-button" id="getAnswersBtn">Answers</button>
+                    <button class="pink-button" id="getHintsBtn">Hints</button>
+                    <button class="pink-button" id="getSolutionsBtn">Solutions</button>
+                </div>
             </div>
+        </div>
+
+        <!-- Error Page -->
+        <div class="error-container container" id="error-container">
+            <div class="main-head">
+                PrepWork
+            </div>
+            <div class="error-box">
+                <h3>Error</h3>
+                <div class="error-msg">
+                    <p id="errorMsg">Please open a question!</p>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!-- <hr style="border: none; margin: 0px; padding: 0px; height: 1px; background-color: black;"> -->

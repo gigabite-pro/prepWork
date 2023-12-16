@@ -30,9 +30,9 @@
                 "https://webwork.elearning.ubc.ca/*"
             ],
             "js": [
+                "html2canvas.js",
                 "content.js"
-            ],
-            "run_at": "document_end"
+            ]
         }
     ],
     "background" : {

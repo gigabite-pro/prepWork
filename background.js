@@ -1,14 +1,14 @@
 chrome.tabs.onActivated.addListener((tab) => {
     chrome.action.disable();
-                chrome.action.setIcon({
-                    path : {
-                        "16" : "./assets/logo-disabled-16.png",
-                        "24" : "./assets/logo-disabled-24.png",
-                        "32" : "./assets/logo-disabled-32.png",
-                        "48" : "./assets/logo-disabled-48.png",
-                        "128" : "./assets/logo-disabled-128.png"
-                    }
-                });
+    chrome.action.setIcon({
+        path : {
+            "16" : "./assets/logo-disabled-16.png",
+            "24" : "./assets/logo-disabled-24.png",
+            "32" : "./assets/logo-disabled-32.png",
+            "48" : "./assets/logo-disabled-48.png",
+            "128" : "./assets/logo-disabled-128.png"
+        }
+    });
     chrome.tabs.get(tab.tabId, (current_tab_info) => {
         try {
             const url = new URL(current_tab_info.url);
@@ -69,4 +69,4 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         });
       }
     }
-  });
+});
