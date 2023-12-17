@@ -3,7 +3,7 @@
     "version": "1.0",
     "description": "PrepWork is a Chrome extension that lets you access answers to the questions of WebWork.",
     "author": "Vaibhav Sharma", 
-    "homepage_url": "https://drive.google.com/drive/folders/11aEZxcQcAxA3u0twSWbRTV3_NRRHvfpb?usp=sharing",
+    "homepage_url": "https://chromewebstore.google.com/detail/prepwork/meognjhkaeidmpoddghbdichphbjgnjm",
     "manifest_version": 3,
     "action": {
         "default_title": "PrepWork",
