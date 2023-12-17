@@ -9,7 +9,7 @@ function displayContainer(state) {
     }
 }
 
-const host = 'http://localhost:3000';
+const host = 'https://prep-work-api.vercel.app';
 
 async function verifyToken() {
     chrome.storage.local.get(['token'], function(result) {

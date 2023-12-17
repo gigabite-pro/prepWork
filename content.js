@@ -50,7 +50,7 @@ window.onload = () => {
                 }
 
                 html2canvas(document.querySelector('#output_problem_body')).then(canvas => {
-                    fetch(`http://localhost:3000/answers/upload?token=${token}`, {
+                    fetch(`https://prep-work-api.vercel.app/answers/upload?token=${token}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
