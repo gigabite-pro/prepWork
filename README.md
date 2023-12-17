@@ -10,4 +10,4 @@ PrepWork is a Chrome extension that lets you access answers to the questions of 
 - Stops storing your answers once you logout.
 
 # Download Link
-[Download](https://chromewebstore.google.com/detail/PrepWork/meognjhkaeidmpoddghbdichphbjgnjm?hl=en-GB)
+[Download](https://chromewebstore.google.com/detail/prepwork/meognjhkaeidmpoddghbdichphbjgnjm)
