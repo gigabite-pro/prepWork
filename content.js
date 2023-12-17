@@ -15,9 +15,10 @@ window.onload = () => {
 
             // Update course info every time the popup is opened
             chrome.runtime.onMessage.addListener(request => {
-                console.log('hlo')
                 if (request.type == "getCourseInfo") {
                     chrome.storage.local.set({ wwNumber: wwNumber, qNumber: qNumber, courseNumber: courseNumber });
+                } else if (request.type == "reload") {
+                    window.location.reload();
                 }
             });
 

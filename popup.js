@@ -98,11 +98,16 @@ document.getElementById('regBtn').addEventListener('click', () => {
     .then((res) => res.json())
     .then((data) => {
         if (data.status) {
-            notyf.success('Registered Successfully!');
-            appState = 'course';
-            displayContainer(appState);
-            chrome.storage.local.set({ token: data.token });
-            listenForCourseInfo();
+            sendReloadRequest();
+            chrome.runtime.onMessage.addListener(function(request) {
+                if (request.type == "reloaded" && request.from == "background") {
+                    notyf.success('Registered Successfully!');
+                    appState = 'course';
+                    displayContainer(appState);
+                    chrome.storage.local.set({ token: data.token });
+                    listenForCourseInfo();
+                }
+            });
         } else {
             notyf.error(data.error);
         }
@@ -124,11 +129,16 @@ document.getElementById('loginBtn').addEventListener('click', () => {
     .then((res) => res.json())
     .then((data) => {
         if (data.status) {
-            notyf.success('Logged In Successfully!');
-            appState = 'course';
-            displayContainer(appState);
-            chrome.storage.local.set({ token: data.token });
-            listenForCourseInfo();
+            sendReloadRequest();
+            chrome.runtime.onMessage.addListener(function(request){
+                if (request.type == "reloaded" && request.from == "background") {
+                    notyf.success('Logged In Successfully!');
+                    appState = 'course';
+                    displayContainer(appState);
+                    chrome.storage.local.set({ token: data.token });
+                    listenForCourseInfo();
+                }
+            });
         } else {
             notyf.error(data.error);
         }
@@ -167,6 +177,18 @@ document.getElementById('forgotBtn').addEventListener('click', () => {
     });
 });
 
+// Send Reload Request
+function sendReloadRequest() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        const tab = tabs[0];
+        const url = new URL(tab.url);
+    
+        if (url.pathname.split('/').length > 5) {
+            chrome.tabs.sendMessage(tab.id, {type: 'reload'});
+        }
+    });
+}
+
 // Show Course Info and fetch answers
 function listenForCourseInfo() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -204,6 +226,7 @@ function listenForCourseInfo() {
                                     const questionId = card.children[0].value;
                                     for (let i = 0; i < data.allQuestions.length; i++) {
                                         if (data.allQuestions[i]._id == questionId) {
+                                            // Inflate Question
                                             document.getElementById('question').style.backgroundImage = `url(${data.allQuestions[i].file})`;
                                             const img = new Image();
                                             img.src = data.allQuestions[i].file;
@@ -212,14 +235,16 @@ function listenForCourseInfo() {
 
                                                 document.documentElement.style.setProperty('--paddingTop', `${aspectRatio * 100}%`);
                                             }
+                                            // Inflate Answers
                                             document.getElementById('answers').innerHTML = '';
                                             for (let j = 0; j < data.allQuestions[i].answers.length; j++) {
                                                 document.getElementById('answers').innerHTML += `<div class="answer-card">
+                                                <p class="username">${data.allQuestions[i].answers[j][0]}</p>
                                                 <div class="wrapper" id="${questionId}-${j}">
                                                 </div>
                                                 </div>`
 
-                                                for (let k = 0; k < data.allQuestions[i].answers[j].length; k++) {
+                                                for (let k = 1; k < data.allQuestions[i].answers[j].length; k++) {
                                                     document.getElementById(`${questionId}-${j}`).innerHTML += `<input class="answer-input" type="text" value="${data.allQuestions[i].answers[j][k]}">`
                                                 }
                                             }
