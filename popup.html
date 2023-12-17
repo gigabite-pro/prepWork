@@ -82,15 +82,37 @@
             <div class="main-head">
                 PrepWork
             </div>
+            <button class="pink-button" id="logoutBtn" style="margin: 10px 0px;">Logout</button>
             <div class="course-box">
                 <h3 id="course-info">Loading...</h3>
-                <div class="btn-list">
-                    <button class="pink-button" id="getAnswersBtn">Answers</button>
-                    <button class="pink-button" id="getHintsBtn">Hints</button>
-                    <button class="pink-button" id="getSolutionsBtn">Solutions</button>
+                <div class="ques-cards" id="ques-cards">
+                    <!-- Questions will be added here -->
                 </div>
             </div>
         </div>
+
+        <!-- Question Page -->
+        <div class="question-container container" id="question-container">
+            <div class="backBtn ques-back-btn" id="backBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" height="35" width="35" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path fill="#daf276" d="M0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32C28.7 32 0 60.7 0 96L0 416zM128 256c0-6.7 2.8-13 7.7-17.6l112-104c7-6.5 17.2-8.2 25.9-4.4s14.4 12.5 14.4 22l0 208c0 9.5-5.7 18.2-14.4 22s-18.9 2.1-25.9-4.4l-112-104c-4.9-4.5-7.7-10.9-7.7-17.6z"/></svg>
+            </div>
+            <div class="main-head">
+                PrepWork
+            </div>
+            <div class="question-box">
+                <h3 id="question-info">Loading...</h3>
+                <div class="main-question">
+                    <div class="question" id="question">
+                        <!-- Question will be added here -->
+                    </div>
+                    <h3>Answers</h3>
+                    <div class="answers" id="answers">
+                        <!-- Answers will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Error Page -->
         <div class="error-container container" id="error-container">

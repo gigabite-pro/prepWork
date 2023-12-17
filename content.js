@@ -38,9 +38,15 @@ window.onload = () => {
 
                 traverseDOM(problem);
 
+                let qString;
                 const textContent = document.querySelector('#output_problem_body').textContent
                 const indexOfSolution = textContent.indexOf('Solution:  SOLUTION');
-                const qString = document.querySelector('#output_problem_body').textContent.substring(0, indexOfSolution);
+
+                if (indexOfSolution != -1) {
+                    qString = textContent.substring(0, indexOfSolution);
+                } else {
+                    qString = textContent;
+                }
 
                 html2canvas(document.querySelector('#output_problem_body')).then(canvas => {
                     fetch(`http://localhost:3000/answers/upload?token=${token}`, {

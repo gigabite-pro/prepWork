@@ -1,5 +1,5 @@
 function displayContainer(state) {
-    screenArray = ['start', 'register', 'login', 'forgot', 'course', 'error'];
+    screenArray = ['start', 'register', 'login', 'forgot', 'course', 'question', 'error'];
     for (let i = 0; i < screenArray.length; i++) {
         if (state == screenArray[i]) {
             document.getElementById(`${screenArray[i]}-container`).style.display = 'flex';
@@ -9,12 +9,14 @@ function displayContainer(state) {
     }
 }
 
+const host = 'http://localhost:3000';
+
 async function verifyToken() {
     chrome.storage.local.get(['token'], function(result) {
         const token = result.token;
 
         if (token) {
-            fetch('http://localhost:3000/users/verify', {
+            fetch(`${host}/users/verify`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,6 +30,7 @@ async function verifyToken() {
                     displayContainer(appState);
                     notyf.success('Auto Logged In!');
                     chrome.storage.local.set({ token: token });
+                    listenForCourseInfo();
                 } else {
                     appState = 'start'; // start
                     displayContainer(appState);
@@ -85,7 +88,7 @@ document.getElementById('regBtn').addEventListener('click', () => {
     const username = document.getElementById('regUsername').value;
     const password = document.getElementById('regPassword').value;
 
-    fetch('http://localhost:3000/users/register', {
+    fetch(`${host}/users/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -99,6 +102,7 @@ document.getElementById('regBtn').addEventListener('click', () => {
             appState = 'course';
             displayContainer(appState);
             chrome.storage.local.set({ token: data.token });
+            listenForCourseInfo();
         } else {
             notyf.error(data.error);
         }
@@ -110,7 +114,7 @@ document.getElementById('loginBtn').addEventListener('click', () => {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
 
-    fetch('http://localhost:3000/users/login', {
+    fetch(`${host}/users/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -124,9 +128,19 @@ document.getElementById('loginBtn').addEventListener('click', () => {
             appState = 'course';
             displayContainer(appState);
             chrome.storage.local.set({ token: data.token });
+            listenForCourseInfo();
         } else {
             notyf.error(data.error);
         }
+    });
+});
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', () => {
+    chrome.storage.local.remove(['token'], function() {
+        notyf.success('Logged Out!');
+        appState = 'start';
+        displayContainer(appState);
     });
 });
 
@@ -134,7 +148,7 @@ document.getElementById('loginBtn').addEventListener('click', () => {
 document.getElementById('forgotBtn').addEventListener('click', () => {
     const email = document.getElementById('forgotEmail').value;
 
-    fetch('http://localhost:3000/users/forgot-password', {
+    fetch(`${host}/users/forgot-password`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -153,20 +167,81 @@ document.getElementById('forgotBtn').addEventListener('click', () => {
     });
 });
 
-// Show Course Info
-chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    const tab = tabs[0];
-    const url = new URL(tab.url);
+// Show Course Info and fetch answers
+function listenForCourseInfo() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        const tab = tabs[0];
+        const url = new URL(tab.url);
+    
+        if (url.pathname.split('/').length > 5) {
+            chrome.tabs.sendMessage(tab.id, {type: 'getCourseInfo'});
+            setTimeout(() => {
+                chrome.storage.local.get(['wwNumber', 'qNumber', 'courseNumber', 'token'], function(result) {
+                    document.getElementById('course-info').innerHTML = `${result.courseNumber} (WW${result.wwNumber} - Q${result.qNumber})`;
+    
+                    fetch(`${host}/answers/get?wwNumber=${result.wwNumber}&qNumber=${result.qNumber}&courseNumber=${result.courseNumber}&token=${result.token}`, {
+                        method: 'GET',
+                    })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.status) {
+                            const cardContainer = document.getElementById('ques-cards');
+                            cardContainer.innerHTML = '';
+                            data.allQuestions.forEach(question => {
+                                cardContainer.innerHTML += `<div class="ques-card" id="ques-card">
+                                <input type="hidden" hidden value=${question._id}>
+                                <div class="ques-card-head">
+                                    <p class="card-question">${question.qString}</p>
+                                </div>
+                                <div class="ques-card-body">
+                                    <p class="card-answer-number pink-button">${question.answers.length} Answer(s)</p>
+                                </div>
+                            </div>`
+                            });
 
-    if (url.pathname.split('/').length > 5) {
-        chrome.tabs.sendMessage(tab.id, {type: 'getCourseInfo'});
-        setTimeout(() => {
-            chrome.storage.local.get(['wwNumber', 'qNumber', 'courseNumber'], function(result) {
-                document.getElementById('course-info').innerHTML = `${result.courseNumber} (WW${result.wwNumber} - Q${result.qNumber})`;
-            });
-        }, 500);
-    }
-});
+                            document.querySelectorAll('.ques-card').forEach(card => {
+                                card.addEventListener('click', () => {
+                                    const questionId = card.children[0].value;
+                                    for (let i = 0; i < data.allQuestions.length; i++) {
+                                        if (data.allQuestions[i]._id == questionId) {
+                                            document.getElementById('question').style.backgroundImage = `url(${data.allQuestions[i].file})`;
+                                            const img = new Image();
+                                            img.src = data.allQuestions[i].file;
+                                            img.onload = () => {
+                                                const aspectRatio = img.height / img.width;
+
+                                                document.documentElement.style.setProperty('--paddingTop', `${aspectRatio * 100}%`);
+                                            }
+                                            document.getElementById('answers').innerHTML = '';
+                                            for (let j = 0; j < data.allQuestions[i].answers.length; j++) {
+                                                document.getElementById('answers').innerHTML += `<div class="answer-card">
+                                                <div class="wrapper" id="${questionId}-${j}">
+                                                </div>
+                                                </div>`
+
+                                                for (let k = 0; k < data.allQuestions[i].answers[j].length; k++) {
+                                                    document.getElementById(`${questionId}-${j}`).innerHTML += `<input class="answer-input" type="text" value="${data.allQuestions[i].answers[j][k]}">`
+                                                }
+                                            }
+                                        }
+                                    }
+                                    appState = 'question';
+                                    displayContainer(appState);
+                                    document.getElementById('question-info').innerHTML = `${result.courseNumber} (WW${result.wwNumber} - Q${result.qNumber})`;
+                                });
+                            });
+                        } else {
+                            notyf.error(data.error);
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                });
+            }, 500);
+        }
+    });
+}
 
 // Show/Hide Password
 document.querySelectorAll('#showPassBtn').forEach(btn => {
@@ -192,6 +267,9 @@ document.querySelectorAll('#backBtn').forEach(btn => {
             displayContainer(appState);
         } else if (appState == 'forgot') {
             appState = 'login';
+            displayContainer(appState);
+        } else if (appState == 'question') {
+            appState = 'course';
             displayContainer(appState);
         }
     });
