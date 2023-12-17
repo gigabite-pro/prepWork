@@ -22,7 +22,8 @@
         "storage"
     ],
     "host_permissions" : [
-        "https://webwork.elearning.ubc.ca/*"
+        "https://webwork.elearning.ubc.ca/*",
+        "https://prep-work-api.vercel.app/*"
     ],
     "content_scripts": [
         {

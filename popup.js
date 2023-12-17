@@ -99,15 +99,11 @@ document.getElementById('regBtn').addEventListener('click', () => {
     .then((data) => {
         if (data.status) {
             sendReloadRequest();
-            chrome.runtime.onMessage.addListener(function(request) {
-                if (request.type == "reloaded" && request.from == "background") {
-                    notyf.success('Registered Successfully!');
-                    appState = 'course';
-                    displayContainer(appState);
-                    chrome.storage.local.set({ token: data.token });
-                    listenForCourseInfo();
-                }
-            });
+            notyf.success('Registered Successfully!');
+            appState = 'course';
+            displayContainer(appState);
+            chrome.storage.local.set({ token: data.token });
+            listenForCourseInfo();
         } else {
             notyf.error(data.error);
         }
@@ -130,15 +126,11 @@ document.getElementById('loginBtn').addEventListener('click', () => {
     .then((data) => {
         if (data.status) {
             sendReloadRequest();
-            chrome.runtime.onMessage.addListener(function(request){
-                if (request.type == "reloaded" && request.from == "background") {
-                    notyf.success('Logged In Successfully!');
-                    appState = 'course';
-                    displayContainer(appState);
-                    chrome.storage.local.set({ token: data.token });
-                    listenForCourseInfo();
-                }
-            });
+            notyf.success('Logged In Successfully!');
+            appState = 'course';
+            displayContainer(appState);
+            chrome.storage.local.set({ token: data.token });
+            listenForCourseInfo();
         } else {
             notyf.error(data.error);
         }
