@@ -17,8 +17,6 @@ window.onload = () => {
             chrome.runtime.onMessage.addListener(request => {
                 if (request.type == "getCourseInfo") {
                     chrome.storage.local.set({ wwNumber: wwNumber, qNumber: qNumber, courseNumber: courseNumber });
-                } else if (request.type == "reload") {
-                    window.location.reload();
                 }
             });
 

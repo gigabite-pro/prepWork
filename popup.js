@@ -98,7 +98,6 @@ document.getElementById('regBtn').addEventListener('click', () => {
     .then((res) => res.json())
     .then((data) => {
         if (data.status) {
-            sendReloadRequest();
             notyf.success('Registered Successfully!');
             appState = 'course';
             displayContainer(appState);
@@ -125,7 +124,6 @@ document.getElementById('loginBtn').addEventListener('click', () => {
     .then((res) => res.json())
     .then((data) => {
         if (data.status) {
-            sendReloadRequest();
             notyf.success('Logged In Successfully!');
             appState = 'course';
             displayContainer(appState);
